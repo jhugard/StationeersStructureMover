@@ -77,6 +77,12 @@ namespace StationeersWorldEditor.Models
                    p2.Z == b.p1.Z || p2.Z == b.p2.Z;
         }
 
+        public void Scale(double factor)
+        {
+            p1.Scale(factor);
+            p2.Scale(factor);
+        }
+
         public override string ToString()
         {
             return $"[{p1} - {p2}]";

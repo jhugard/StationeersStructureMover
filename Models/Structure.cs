@@ -15,7 +15,7 @@ namespace StationeersWorldEditor.Models
         public Bounds Bounds;
         double ProximityRange;
 
-        public Structure(string name, double proximityRange = 10)
+        public Structure(string name, double proximityRange = 20)
         {
             ProximityRange = proximityRange;
             if (string.IsNullOrWhiteSpace(name))
@@ -56,6 +56,22 @@ namespace StationeersWorldEditor.Models
                     Bounds.Encompass(thing.WorldPosition);
                 if (thing.RegisteredWorldPosition != null)
                     Bounds.Encompass(thing.RegisteredWorldPosition);
+            }
+        }
+
+        public void Add(Atmosphere atmos)
+        {
+            if (atmos == null) throw new ArgumentNullException(nameof(atmos));
+            if (atmos.Position == null) throw new InvalidOperationException("Atmosphere must have a valid Position.");
+
+            AtmospheresInside.Add(atmos);
+            if (Bounds == null)
+            {
+                Bounds = new Bounds(atmos.Position, ProximityRange, ProximityRange, ProximityRange);
+            }
+            else
+            {
+                Bounds.Encompass(atmos.Position);
             }
         }
 

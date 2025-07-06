@@ -35,6 +35,14 @@ namespace StationeersWorldEditor.Models
             this.Z += dz;
         }
 
+        public virtual void Scale(double factor)
+        {
+            // Scale the point by the specified factor
+            this.X *= factor;
+            this.Y *= factor;
+            this.Z *= factor;
+        }
+
         public virtual void MoveTo(double x, double y, double z)
         {
             // Move the point to the specified coordinates

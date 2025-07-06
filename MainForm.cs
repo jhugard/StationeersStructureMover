@@ -38,7 +38,6 @@ namespace StationeersWorldEditor
                     LoadWorldXml();
                     ParseWorldXml();
                     BuildStructures();
-                    //IdentifyStructures();
                     structures = structures.OrderBy(p => p.GetCenter().Length()).ToList();
                     //PopulateUI();
                 }
@@ -127,7 +126,10 @@ namespace StationeersWorldEditor
             structures = new List<Structure>();
             outsideWorld = new Structure("Outside");
             var unassignedThings = new List<XThing>(allThings);
-            while (BuildStructure(structureId, unassignedThings))
+            var unassignedAtmos = new List<Atmosphere>(allAtmos);
+            var unassignedRooms = new List<Room>(allRooms);
+
+            while (BuildStructure(structureId, unassignedThings, unassignedAtmos, unassignedRooms))
             {
                 structureId++;
             }
@@ -136,6 +138,8 @@ namespace StationeersWorldEditor
                 if (structure.ThingsInside.Count == 1)
                 {
                     unassignedThings.AddRange(structure.ThingsInside);
+                    unassignedAtmos.AddRange(structure.AtmospheresInside);
+                    unassignedRooms.AddRange(structure.Rooms);
                     structures.Remove(structure);
                 }
             }
@@ -143,12 +147,21 @@ namespace StationeersWorldEditor
             {
                 outsideWorld.Add(thing);
             }
-
-            var unassignedAtmos = new List<Atmosphere>(allAtmos);
-
+            foreach (var atmos in unassignedAtmos)
+            {
+                outsideWorld.Add(atmos);
+            }
+            foreach (var room in unassignedRooms)
+            {
+                outsideWorld.Add(room);
+            }
         }
 
-        private bool BuildStructure(int structureId, List<XThing> unassignedThings)
+        private bool BuildStructure(
+            int structureId,
+            List<XThing> unassignedThings,
+            List<Atmosphere> unassignedAtmos,
+            List<Room> unassignedRooms)
         {
             if (unassignedThings.Count == 0)
                 return false;
@@ -184,157 +197,41 @@ namespace StationeersWorldEditor
                     }
                 }
             }
+
+            dirty = true;
+            while (dirty)
+            {
+                dirty = false;
+                foreach (var atmos in new List<Atmosphere>(unassignedAtmos))
+                {
+                    if (structure.IsWithinProximity(atmos.Position))
+                    {
+                        structure.Add(atmos);
+                        unassignedAtmos.Remove(atmos);
+                        dirty = true;
+                    }
+                }
+            }
+
+            dirty = true;
+            while (dirty)
+            {
+                dirty = false;
+                foreach (var room in new List<Room>(unassignedRooms))
+                {
+                    var roomBounds = room.GetBounds();
+                    roomBounds.Scale(0.10);
+                    if (structure.Bounds.Intersects(roomBounds))
+                    {
+                        structure.Add(room);
+                        unassignedRooms.Remove(room);
+                        dirty = true;
+                    }
+                }
+            }
+            
             structures.Add(structure);
             return true;
         }
-
-        //private void IdentifyStructures()
-        //{
-        //    var graph = BuildRoomGraph();
-        //    var connectedComponents = FindConnectedComponents(graph);
-
-        //    structures = new List<Structure>();
-        //    int structureId = 1;
-        //    foreach (var component in connectedComponents)
-        //    {
-        //        var structureRooms = component.Select(roomId => allRooms.First(r => r.RoomId == roomId)).ToList();
-        //        structures.Add(new Structure($"Structure #{structureId++}", structureRooms));
-        //    }
-
-        //    outsideWorld = new Structure("Outside World", new List<Room>());
-        //    AssignThingsAndAtmospheres();
-        //}
-
-        //private Dictionary<int, List<int>> BuildRoomGraph()
-        //{
-        //    var graph = allRooms.ToDictionary(r => r.RoomId, r => new List<int>());
-        //    var gridToRooms = new Dictionary<(double, double, double), List<int>>();
-
-        //    foreach (var room in allRooms)
-        //    {
-        //        foreach (var grid in room.Grids)
-        //        {
-        //            var key = (grid.X, grid.Y, grid.Z);
-        //            if (!gridToRooms.ContainsKey(key))
-        //                gridToRooms[key] = new List<int>();
-        //            gridToRooms[key].Add(room.RoomId);
-        //        }
-        //    }
-
-        //    foreach (var room in allRooms)
-        //    {
-        //        var adjacentRooms = new HashSet<int>();
-        //        foreach (var grid in room.Grids)
-        //        {
-        //            var adjacentPositions = new[]
-        //            {
-        //                (grid.X + 20, grid.Y, grid.Z),
-        //                (grid.X - 20, grid.Y, grid.Z),
-        //                (grid.X, grid.Y + 20, grid.Z),
-        //                (grid.X, grid.Y - 20, grid.Z),
-        //                (grid.X, grid.Y, grid.Z + 20),
-        //                (grid.X, grid.Y, grid.Z - 20)
-        //            };
-        //            foreach (var adjPos in adjacentPositions)
-        //            {
-        //                if (gridToRooms.TryGetValue(adjPos, out var adjRooms))
-        //                {
-        //                    foreach (var adjRoomId in adjRooms)
-        //                    {
-        //                        if (adjRoomId != room.RoomId)
-        //                            adjacentRooms.Add(adjRoomId);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        graph[room.RoomId].AddRange(adjacentRooms);
-        //    }
-        //    return graph;
-        //}
-
-        //private List<List<int>> FindConnectedComponents(Dictionary<int, List<int>> graph)
-        //{
-        //    var visited = new HashSet<int>();
-        //    var components = new List<List<int>>();
-
-        //    foreach (var node in graph.Keys)
-        //    {
-        //        if (!visited.Contains(node))
-        //        {
-        //            var component = new List<int>();
-        //            DFS(node, graph, visited, component);
-        //            components.Add(component);
-        //        }
-        //    }
-        //    return components;
-        //}
-
-        //private void DFS(int node, Dictionary<int, List<int>> graph, HashSet<int> visited, List<int> component)
-        //{
-        //    visited.Add(node);
-        //    component.Add(node);
-        //    foreach (var neighbor in graph[node])
-        //    {
-        //        if (!visited.Contains(neighbor))
-        //        {
-        //            DFS(neighbor, graph, visited, component);
-        //        }
-        //    }
-        //}
-
-        //private void AssignThingsAndAtmospheres()
-        //{
-        //    foreach (var thing in allThings)
-        //    {
-        //        bool assigned = false;
-        //        foreach (var structure in structures)
-        //        {
-        //            var wp = thing.WorldPosition;
-        //            var rwp = thing.RegisteredWorldPosition;
-        //            if (wp != null && structure.Contains(wp))
-        //            {
-        //                structure.Add(thing);
-        //                assigned = true;
-        //                break;
-        //            }
-        //            else if (rwp != null && structure.Contains(rwp)
-        //            {
-        //                structure.Add(thing);
-        //                assigned = true;
-        //                break;
-        //            }
-        //        }
-        //        if (!assigned)
-        //        {
-        //            outsideWorld.Add(thing);
-        //        }
-        //    }
-
-        //    foreach (var atmosphere in allAtmos)
-        //    {
-        //        bool assigned = false;
-        //        foreach (var structure in structures)
-        //        {
-        //            if (IsInsideStructure(atmosphere.Position, structure))
-        //            {
-        //                structure.AtmospheresInside.Add(atmosphere);
-        //                assigned = true;
-        //                break;
-        //            }
-        //        }
-        //        if (!assigned)
-        //        {
-        //            outsideWorld.AtmospheresInside.Add(atmosphere);
-        //        }
-        //    }
-        //}
-
-        //private bool IsInsideStructure(XPoint3D pos, Structure structure)
-        //{
-        //    return structure.IsWithinProximity(pos);
-        //}
-
-
-
     }
 }
