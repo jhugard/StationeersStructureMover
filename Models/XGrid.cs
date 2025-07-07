@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace StationeersWorldEditor.Models
+namespace StationeersStructureMover.Models
 {
     internal class XGrid : XPoint3D
     {

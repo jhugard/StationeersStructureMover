@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace StationeersWorldEditor
+namespace StationeersStructureMover.Views
 {
     partial class MainForm
     {
@@ -41,6 +41,7 @@ namespace StationeersWorldEditor
             editToolStripMenuItem = new ToolStripMenuItem();
             offsetAllToolStripMenuItem = new ToolStripMenuItem();
             offsetSelectedToolStripMenuItem = new ToolStripMenuItem();
+            renameToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripSeparator();
             undoToolStripMenuItem = new ToolStripMenuItem();
             redoToolStripMenuItem = new ToolStripMenuItem();
@@ -77,19 +78,21 @@ namespace StationeersWorldEditor
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.Size = new Size(180, 22);
             openToolStripMenuItem.Text = "&Open...";
-            openToolStripMenuItem.Click += openSaveToolStripMenuItem_Click;
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new Size(180, 22);
             saveToolStripMenuItem.Text = "&Save...";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             saveAsToolStripMenuItem.Size = new Size(180, 22);
             saveAsToolStripMenuItem.Text = "Save &As...";
+            saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
@@ -104,7 +107,7 @@ namespace StationeersWorldEditor
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { offsetAllToolStripMenuItem, offsetSelectedToolStripMenuItem, toolStripMenuItem2, undoToolStripMenuItem, redoToolStripMenuItem, revertToSavedToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { offsetAllToolStripMenuItem, offsetSelectedToolStripMenuItem, renameToolStripMenuItem, toolStripMenuItem2, undoToolStripMenuItem, redoToolStripMenuItem, revertToSavedToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(39, 20);
             editToolStripMenuItem.Text = "&Edit";
@@ -120,6 +123,15 @@ namespace StationeersWorldEditor
             offsetSelectedToolStripMenuItem.Name = "offsetSelectedToolStripMenuItem";
             offsetSelectedToolStripMenuItem.Size = new Size(180, 22);
             offsetSelectedToolStripMenuItem.Text = "Movet &Selected...";
+            offsetSelectedToolStripMenuItem.Click += offsetSelectedToolStripMenuItem_Click;
+            // 
+            // renameToolStripMenuItem
+            // 
+            renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            renameToolStripMenuItem.ShortcutKeys = Keys.F2;
+            renameToolStripMenuItem.Size = new Size(180, 22);
+            renameToolStripMenuItem.Text = "&Rename...";
+            renameToolStripMenuItem.Click += renameToolStripMenuItem_Click;
             // 
             // toolStripMenuItem2
             // 
@@ -156,13 +168,13 @@ namespace StationeersWorldEditor
             // worldDetailsToolStripMenuItem
             // 
             worldDetailsToolStripMenuItem.Name = "worldDetailsToolStripMenuItem";
-            worldDetailsToolStripMenuItem.Size = new Size(180, 22);
+            worldDetailsToolStripMenuItem.Size = new Size(164, 22);
             worldDetailsToolStripMenuItem.Text = "World details...";
             // 
             // selectedDetailsToolStripMenuItem
             // 
             selectedDetailsToolStripMenuItem.Name = "selectedDetailsToolStripMenuItem";
-            selectedDetailsToolStripMenuItem.Size = new Size(180, 22);
+            selectedDetailsToolStripMenuItem.Size = new Size(164, 22);
             selectedDetailsToolStripMenuItem.Text = "Selected details...";
             // 
             // splitContainer1
@@ -227,5 +239,6 @@ namespace StationeersWorldEditor
         private ToolStripMenuItem selectedDetailsToolStripMenuItem;
         private SplitContainer splitContainer1;
         private TreeView treeView;
+        private ToolStripMenuItem renameToolStripMenuItem;
     }
 }

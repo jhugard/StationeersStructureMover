@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StationeersWorldEditor.Models
+namespace StationeersStructureMover.Models
 {
     internal class Room
     {

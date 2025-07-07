@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StationeersWorldEditor.Models
+namespace StationeersStructureMover.Models
 {
     internal class Structure
     {
@@ -93,13 +93,6 @@ namespace StationeersWorldEditor.Models
 
         public void Translate(double dx, double dy, double dz)
         {
-            foreach (var room in Rooms)
-            {
-                foreach (var grid in room.Grids)
-                {
-                    grid.Translate(dx, dy, dz);
-                }
-            }
             foreach (var thing in ThingsInside)
             {
                 thing.Translate(dx, dy, dz);
@@ -107,6 +100,13 @@ namespace StationeersWorldEditor.Models
             foreach (var atmosphere in AtmospheresInside)
             {
                 atmosphere.Translate(dx, dy, dz);
+            }
+            foreach (var room in Rooms)
+            {
+                foreach (var grid in room.Grids)
+                {
+                    grid.Translate(dx*10, dy*10, dz*10);
+                }
             }
         }
 
@@ -124,7 +124,7 @@ namespace StationeersWorldEditor.Models
 
         public override string ToString()
         {
-            return $"Structure: {Name}, Center: {GetCenter()}, Rooms: {Rooms.Count}, ThingsInside: {ThingsInside.Count}, AtmospheresInside: {AtmospheresInside.Count}";
+            return $"{Name} @ ({GetCenter()}), Things: {ThingsInside.Count}, Atmospheres: {AtmospheresInside.Count}, Rooms: {Rooms.Count}, ";
         }
     }
 }

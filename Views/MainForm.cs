@@ -1,6 +1,6 @@
-namespace StationeersWorldEditor
+namespace StationeersStructureMover.Views
 {
-    using StationeersWorldEditor.Models;
+    using StationeersStructureMover.Models;
     using System;
     using System.IO.Compression;
     using System.Xml.Linq;
@@ -8,6 +8,7 @@ namespace StationeersWorldEditor
 
     public partial class MainForm : Form
     {
+        private string? sourceFilePath;
         private string? saveFilePath;
         private XDocument? worldXml;
 
@@ -23,7 +24,7 @@ namespace StationeersWorldEditor
             InitializeComponent();
         }
 
-        private void openSaveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -34,16 +35,82 @@ namespace StationeersWorldEditor
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    saveFilePath = openFileDialog.FileName;
+                    sourceFilePath = openFileDialog.FileName;
+                    saveFilePath = sourceFilePath;
                     LoadWorldXml();
                     ParseWorldXml();
                     BuildStructures();
-                    structures = structures.OrderBy(p => p.GetCenter().Length()).ToList();
-                    //PopulateUI();
+                    if (structures != null)
+                        structures = structures.OrderBy(p => p.GetCenter().Length()).ToList();
+                    PopulateUI();
                 }
             }
         }
 
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sourceFilePath == null)
+            {
+                MessageBox.Show("No save file loaded. Please open a save file first.");
+                return;
+            }
+
+            // Rename existing file to back it up
+            if (File.Exists(saveFilePath))
+            {
+                var ix = 0;
+                while (File.Exists(saveFilePath + ".bak" + (ix == 0 ? "" : $"_{ix}")))
+                {
+                    ix++;
+                }
+                var backupFilePath = saveFilePath + ".bak" + (ix == 0 ? "" : $"_{ix}");
+                File.Copy(saveFilePath, backupFilePath, false);
+            }
+            try
+            {
+                if (saveFilePath != sourceFilePath)
+                {
+                    File.Copy(sourceFilePath, saveFilePath, true);
+                }
+                using (var archive = ZipFile.Open(saveFilePath, ZipArchiveMode.Update))
+                {
+                    var entry = archive.GetEntry("world.xml");
+                    if (entry != null)
+                    {
+                        entry.Delete();
+                    }
+                    var newEntry = archive.CreateEntry("world.xml");
+                    using (var stream = newEntry.Open())
+                    {
+                        worldXml.Save(stream);
+                    }
+                }
+                sourceFilePath = saveFilePath;
+                MessageBox.Show("Save file updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving file: {ex.Message}");
+            }
+
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Stationeers Save Files (*.save)|*.save",
+                Title = "Save Stationeers World",
+                InitialDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "My Games", "Stationeers", "saves")
+            })
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    saveFilePath = saveFileDialog.FileName;
+                    saveToolStripMenuItem_Click(sender, e);
+                }
+            }
+        }
 
         private void LoadWorldXml()
         {
@@ -124,7 +191,7 @@ namespace StationeersWorldEditor
         {
             int structureId = 1;
             structures = new List<Structure>();
-            outsideWorld = new Structure("Outside");
+            outsideWorld = new Structure("Loose Items");
             var unassignedThings = new List<XThing>(allThings);
             var unassignedAtmos = new List<Atmosphere>(allAtmos);
             var unassignedRooms = new List<Room>(allRooms);
@@ -229,9 +296,96 @@ namespace StationeersWorldEditor
                     }
                 }
             }
-            
+
             structures.Add(structure);
             return true;
+        }
+
+        void PopulateUI()
+        {
+            if (structures == null || structures.Count == 0)
+            {
+                MessageBox.Show("No structures found in the world.");
+                return;
+            }
+
+            treeView.BeginUpdate();
+            treeView.Nodes.Clear();
+            foreach (var structure in structures)
+            {
+                AddStructureToTreeView(structure);
+            }
+            if (outsideWorld != null)
+            {
+                AddStructureToTreeView(outsideWorld);
+            }
+            treeView.EndUpdate();
+        }
+
+        void AddStructureToTreeView(Structure structure)
+        {
+            var node = treeView.Nodes.Add(structure.ToString());
+            node.Tag = structure;
+            foreach (var thing in structure.ThingsInside)
+            {
+                var n = node.Nodes.Add(thing.ToString());
+                n.Tag = thing;
+            }
+            foreach (var atmos in structure.AtmospheresInside)
+            {
+                var n = node.Nodes.Add(atmos.ToString());
+                n.Tag = atmos;
+            }
+            foreach (var room in structure.Rooms)
+            {
+                var roomNode = node.Nodes.Add(room.ToString());
+                roomNode.Tag = room;
+                foreach (var grid in room.Grids)
+                {
+                    var n = roomNode.Nodes.Add(grid.ToString());
+                    n.Tag = grid;
+                }
+            }
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode != null && treeView.SelectedNode.Tag is Structure structure)
+            {
+                using (var renameDialog = new Views.RenameDialog())
+                {
+                    renameDialog.tbStructureName.Text = structure.Name;
+                    if (renameDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        structure.Name = renameDialog.tbStructureName.Text;
+                        treeView.SelectedNode.Text = structure.ToString();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a structure to rename.");
+            }
+        }
+
+        private void offsetSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (MoveDialog moveDialog = new MoveDialog())
+            {
+                if (moveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (treeView.SelectedNode != null && treeView.SelectedNode.Tag is Structure structure)
+                    {
+                        var offset = moveDialog.GetOffset();
+                        structure.Translate(offset.X, offset.Y, offset.Z);
+                        treeView.SelectedNode.Text = structure.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please select a structure to offset.");
+                    }
+                }
+            }
         }
     }
 }

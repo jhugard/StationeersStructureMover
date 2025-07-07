@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace StationeersWorldEditor.Models
+namespace StationeersStructureMover.Models
 {
     internal class Point3D
     {

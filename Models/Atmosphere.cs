@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace StationeersWorldEditor.Models
+namespace StationeersStructureMover.Models
 {
     internal class Atmosphere
     {
         public int ReferenceId { get; }
         public XPoint3D? Position { get; set; }
+        public double Volume { get; }
 
         public Atmosphere(XElement element)
         {
@@ -21,10 +22,11 @@ namespace StationeersWorldEditor.Models
             {
                 Position = new XPoint3D(positionElement);
             }
+            Volume = double.Parse(element.Element("Volume")?.Value ?? "0");
         }
         public override string ToString()
         {
-            return $"Atmosphere ID: {ReferenceId}, Position: ({Position?.X}, {Position?.Y}, {Position?.Z})";
+            return $"Atmosphere ID: {ReferenceId} @ ({Position}), Volume: {Volume}";
         }
 
         public void Translate(double dx, double dy, double dz)
