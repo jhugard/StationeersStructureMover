@@ -59,10 +59,12 @@ namespace StationeersStructureMover.Views
             // 
             // menuStrip1
             // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(903, 24);
+            menuStrip1.Padding = new Padding(7, 3, 0, 3);
+            menuStrip1.Size = new Size(1032, 30);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -70,58 +72,60 @@ namespace StationeersStructureMover.Views
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, saveAsToolStripMenuItem, toolStripMenuItem1, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(224, 26);
             openToolStripMenuItem.Text = "&Open...";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(180, 22);
+            saveToolStripMenuItem.Size = new Size(224, 26);
             saveToolStripMenuItem.Text = "&Save...";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(180, 22);
+            saveAsToolStripMenuItem.Size = new Size(224, 26);
             saveAsToolStripMenuItem.Text = "Save &As...";
             saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(177, 6);
+            toolStripMenuItem1.Size = new Size(221, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(224, 26);
             exitToolStripMenuItem.Text = "E&xit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { offsetAllToolStripMenuItem, offsetSelectedToolStripMenuItem, renameToolStripMenuItem, toolStripMenuItem2, undoToolStripMenuItem, redoToolStripMenuItem, revertToSavedToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(39, 20);
+            editToolStripMenuItem.Size = new Size(49, 24);
             editToolStripMenuItem.Text = "&Edit";
             // 
             // offsetAllToolStripMenuItem
             // 
+            offsetAllToolStripMenuItem.Enabled = false;
             offsetAllToolStripMenuItem.Name = "offsetAllToolStripMenuItem";
-            offsetAllToolStripMenuItem.Size = new Size(180, 22);
+            offsetAllToolStripMenuItem.Size = new Size(224, 26);
             offsetAllToolStripMenuItem.Text = "Move &All...";
             // 
             // offsetSelectedToolStripMenuItem
             // 
             offsetSelectedToolStripMenuItem.Name = "offsetSelectedToolStripMenuItem";
-            offsetSelectedToolStripMenuItem.Size = new Size(180, 22);
+            offsetSelectedToolStripMenuItem.Size = new Size(224, 26);
             offsetSelectedToolStripMenuItem.Text = "Movet &Selected...";
             offsetSelectedToolStripMenuItem.Click += offsetSelectedToolStripMenuItem_Click;
             // 
@@ -129,65 +133,68 @@ namespace StationeersStructureMover.Views
             // 
             renameToolStripMenuItem.Name = "renameToolStripMenuItem";
             renameToolStripMenuItem.ShortcutKeys = Keys.F2;
-            renameToolStripMenuItem.Size = new Size(180, 22);
+            renameToolStripMenuItem.Size = new Size(224, 26);
             renameToolStripMenuItem.Text = "&Rename...";
             renameToolStripMenuItem.Click += renameToolStripMenuItem_Click;
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(177, 6);
+            toolStripMenuItem2.Size = new Size(221, 6);
             // 
             // undoToolStripMenuItem
             // 
             undoToolStripMenuItem.Enabled = false;
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            undoToolStripMenuItem.Size = new Size(180, 22);
+            undoToolStripMenuItem.Size = new Size(224, 26);
             undoToolStripMenuItem.Text = "&Undo";
             // 
             // redoToolStripMenuItem
             // 
             redoToolStripMenuItem.Enabled = false;
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            redoToolStripMenuItem.Size = new Size(180, 22);
+            redoToolStripMenuItem.Size = new Size(224, 26);
             redoToolStripMenuItem.Text = "&Redo";
             // 
             // revertToSavedToolStripMenuItem
             // 
+            revertToSavedToolStripMenuItem.Enabled = false;
             revertToSavedToolStripMenuItem.Name = "revertToSavedToolStripMenuItem";
-            revertToSavedToolStripMenuItem.Size = new Size(180, 22);
+            revertToSavedToolStripMenuItem.Size = new Size(224, 26);
             revertToSavedToolStripMenuItem.Text = "Re&vert to Saved";
             // 
             // viewToolStripMenuItem
             // 
             viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { worldDetailsToolStripMenuItem, selectedDetailsToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(44, 20);
+            viewToolStripMenuItem.Size = new Size(55, 24);
             viewToolStripMenuItem.Text = "&View";
             // 
             // worldDetailsToolStripMenuItem
             // 
             worldDetailsToolStripMenuItem.Name = "worldDetailsToolStripMenuItem";
-            worldDetailsToolStripMenuItem.Size = new Size(164, 22);
+            worldDetailsToolStripMenuItem.Size = new Size(206, 26);
             worldDetailsToolStripMenuItem.Text = "World details...";
             // 
             // selectedDetailsToolStripMenuItem
             // 
             selectedDetailsToolStripMenuItem.Name = "selectedDetailsToolStripMenuItem";
-            selectedDetailsToolStripMenuItem.Size = new Size(164, 22);
+            selectedDetailsToolStripMenuItem.Size = new Size(206, 26);
             selectedDetailsToolStripMenuItem.Text = "Selected details...";
             // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 24);
+            splitContainer1.Location = new Point(0, 30);
+            splitContainer1.Margin = new Padding(3, 4, 3, 4);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(treeView);
-            splitContainer1.Size = new Size(903, 605);
-            splitContainer1.SplitterDistance = 590;
+            splitContainer1.Size = new Size(1032, 809);
+            splitContainer1.SplitterDistance = 674;
+            splitContainer1.SplitterWidth = 5;
             splitContainer1.TabIndex = 1;
             // 
             // treeView
@@ -195,18 +202,20 @@ namespace StationeersStructureMover.Views
             treeView.Dock = DockStyle.Fill;
             treeView.FullRowSelect = true;
             treeView.Location = new Point(0, 0);
+            treeView.Margin = new Padding(3, 4, 3, 4);
             treeView.Name = "treeView";
-            treeView.Size = new Size(590, 605);
+            treeView.Size = new Size(674, 809);
             treeView.TabIndex = 0;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(903, 629);
+            ClientSize = new Size(1032, 839);
             Controls.Add(splitContainer1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "MainForm";
             Text = "Stationeers Structure Mover";
             menuStrip1.ResumeLayout(false);

@@ -37,9 +37,10 @@
             // btnOk
             // 
             btnOk.DialogResult = DialogResult.OK;
-            btnOk.Location = new Point(244, 70);
+            btnOk.Location = new Point(279, 93);
+            btnOk.Margin = new Padding(3, 4, 3, 4);
             btnOk.Name = "btnOk";
-            btnOk.Size = new Size(75, 23);
+            btnOk.Size = new Size(86, 31);
             btnOk.TabIndex = 0;
             btnOk.Text = "&Ok";
             btnOk.UseVisualStyleBackColor = true;
@@ -47,42 +48,45 @@
             // btnCancel
             // 
             btnCancel.DialogResult = DialogResult.Cancel;
-            btnCancel.Location = new Point(325, 70);
+            btnCancel.Location = new Point(371, 93);
+            btnCancel.Margin = new Padding(3, 4, 3, 4);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(75, 23);
+            btnCancel.Size = new Size(86, 31);
             btnCancel.TabIndex = 1;
             btnCancel.Text = "&Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
             // tbStructureName
             // 
-            tbStructureName.Location = new Point(20, 41);
+            tbStructureName.Location = new Point(23, 55);
+            tbStructureName.Margin = new Padding(3, 4, 3, 4);
             tbStructureName.Name = "tbStructureName";
-            tbStructureName.Size = new Size(380, 23);
+            tbStructureName.Size = new Size(434, 27);
             tbStructureName.TabIndex = 2;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(21, 19);
+            label1.Location = new Point(24, 25);
             label1.Name = "label1";
-            label1.Size = new Size(145, 15);
+            label1.Size = new Size(179, 20);
             label1.TabIndex = 3;
             label1.Text = "Enter new structure name:";
             // 
             // RenameDialog
             // 
             AcceptButton = btnOk;
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(413, 105);
+            ClientSize = new Size(472, 136);
             ControlBox = false;
             Controls.Add(label1);
             Controls.Add(tbStructureName);
             Controls.Add(btnCancel);
             Controls.Add(btnOk);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             Name = "RenameDialog";
             ShowInTaskbar = false;

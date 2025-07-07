@@ -5,6 +5,7 @@ namespace StationeersStructureMover.Views
     using System.IO.Compression;
     using System.Xml.Linq;
     using System.Globalization;
+    using System.Security.AccessControl;
 
     public partial class MainForm : Form
     {
@@ -378,6 +379,7 @@ namespace StationeersStructureMover.Views
                     {
                         var offset = moveDialog.GetOffset();
                         structure.Translate(offset.X, offset.Y, offset.Z);
+                        UpdateNodeAndChildrenFromTag(treeView.SelectedNode);
                         treeView.SelectedNode.Text = structure.ToString();
                     }
                     else
@@ -386,6 +388,45 @@ namespace StationeersStructureMover.Views
                     }
                 }
             }
+        }
+
+        void UpdateNodeAndChildrenFromTag(TreeNode node)
+        {
+            // The following casts are probably not necessary,
+            // but since it was autocompleted, keeping it anyway.
+            // Might try just Node.Text = node.Tag.ToString() later.
+            if (node.Tag is Structure structure)
+            {
+                node.Text = structure.ToString();
+                foreach (TreeNode childNode in node.Nodes)
+                {
+                    if (childNode.Tag is XThing thing)
+                    {
+                        childNode.Text = thing.ToString();
+                    }
+                    else if (childNode.Tag is Atmosphere atmosphere)
+                    {
+                        childNode.Text = atmosphere.ToString();
+                    }
+                    else if (childNode.Tag is Room room)
+                    {
+                        childNode.Text = room.ToString();
+                        foreach (var grid in room.Grids)
+                        {
+                            var gridNode = childNode.Nodes.Cast<TreeNode>().FirstOrDefault(n => n.Tag == grid);
+                            if (gridNode != null)
+                            {
+                                gridNode.Text = grid.ToString();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
