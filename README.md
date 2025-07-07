@@ -1,7 +1,7 @@
 # Stationeers Structure and Base Mover
 
 This tool allows you to move bases & other structures Stationeers by selecting
-them individually adjusting their positions.
+them individually and adjusting their positions.
 
 This is especially useful if the developers change the terrain format in, say
 the beta development banch.  This may put your bases underground or otherwise
