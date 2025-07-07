@@ -73,9 +73,9 @@ Structures are built by locating things and atmospheres
 within a certain proximity range, which is set to 20 meters by default; any
 thing within this range is considered part of the structure.  Note: 20 meters
 seems to work fine, but if there's demand this can easily be moved into a
-configuration setting.  Loose items in the world are grouped into the `Loose
+configuration setting.  Loose items in the world grouped into the `Loose
 Items` structure.
 
-It uses brute force to find items to group into structures, so be patient if
-you have built out significantly. Should run pretty fast, but I have not
-tested it with very large save files.
+It uses brute force to find items to group into structures, so be
+patient if you have a lot of items, structures, and pressurized spaces.
+Should run pretty fast, but I have not tested it with very large save files.
