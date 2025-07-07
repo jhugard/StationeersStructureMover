@@ -55,7 +55,9 @@ while leaving all the other bases in place (these were fine).
 1. *Save your changes* - Once done, use `File/Save` to save the changes to the
    save file.  You can also use `File/Save As...` to save the changes to a new
    file, which is useful if you want to keep the original save file intact.
-   Recommend putting the modified save file in the `manualsave` folder.
+   Recommend putting the modified save file in the `manualsave` folder, or
+   just save over the original.  The tool is pretty good about making backups,
+   so you may need to clean these up later.
 1. *Verify your changes* - Load the modified save in Stationeers and
    verify the changes.
 1. *Regenerate Rooms* - From with Stationeers, use the "F3" key to open
