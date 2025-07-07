@@ -77,5 +77,5 @@ configuration setting.  Loose items in the world grouped into the `Loose
 Items` structure.
 
 It uses brute force to find items to group into structures, so be
-patient if you have a lot of things in the world many pressurized squares.
+patient if you have a lot of items, structures, and pressurized spaces.
 Should run pretty fast, but I have not tested it with very large save files.
