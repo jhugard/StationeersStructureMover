@@ -60,11 +60,12 @@ while leaving all the other bases in place (these were fine).
    so you may need to clean these up later.
 1. *Verify your changes* - Load the modified save in Stationeers and
    verify the changes.
-1. *Regenerate Rooms* - From with Stationeers, use the "F3" key to open
-   the console and type "REGENERATEROOMS".  This can take quite a while,
+1. *Regenerate Rooms* - From within Stationeers, use the `F3` key to open
+   the console and type `REGENERATEROOMS`.  This can take quite a while,
    so be patient.  Without this, room sensors, etc. won't work properly.
-1. *Save your changes!* - Once you have verified that the changes are
-   correct, save your game in Stationeers to ensure the changes are retained.
+1. *Save your changes!* - Once you have verified that everything is now
+   to your liking, save your game in Stationeers to ensure the changes are
+   retained.
 
 ## How it works
 
@@ -77,4 +78,4 @@ Items` structure.
 
 It uses brute force to find items to group into structures, so be
 patient if you have a lot of things in the world many pressurized squares.
-Should run pretty fast, but have not tested it with very large save files.
+Should run pretty fast, but I have not tested it with very large save files.
