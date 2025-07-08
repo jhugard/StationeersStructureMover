@@ -1,0 +1,58 @@
+name: Build and Release StationeersStructureMover
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    types: [closed]
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore StationeersStructureMover.sln
+
+    - name: Build
+      run: dotnet build StationeersStructureMover.sln --configuration Release --no-restore
+
+    - name: Publish
+      run: dotnet publish StationeersStructureMover.csproj --configuration Release --framework net8.0-windows --runtime win-x64 --self-contained true --output ./publish /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfContained=true
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: StationeersStructureMover
+        path: ./publish/StationeersStructureMover.exe
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+          name: "StationeersStructureMover ${{ github.ref_name }}"
+          tag_name: ${{ github.ref_name }}
+          body: |
+            ## This is an automated Release created with GitHub Actions
+            ## What's New
+
+            
+            ### Changes
+            - Bug fixes and improvements
+            - Performance enhancements
+          draft: true
+          prerelease: false
+          files: ./publish/StationeersStructureMover.exe
+          generate_release_notes: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
