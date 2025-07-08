@@ -3,11 +3,9 @@ name: Build and Release StationeersStructureMover
 on:
   release:
     types: [published]
-  workflow_dispatch:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: windows-latest
 
     steps:
