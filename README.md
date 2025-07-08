@@ -17,9 +17,9 @@ exploded, you can use this tool to move the base back to a reasonable
 position.
 
 Inspired by @JacksonTheMaster's [Stationeers Savegame Transformer](https://sst.jxsn.dev/)
-which does a great job of migrating saves from an older format, moving all structures
-to a new planet, and/or relocating all structures at once.  I needed to fix up
-individual structures in an existing save game, hence this tool was born.
+which is an on-line tool that does a great job of migrating saves from an older format,
+moving all structures to a new planet, and/or relocating all structures at once.  I needed
+to fix up individual structures in an existing save game, hence this tool was born.
 
 ## Status
 
