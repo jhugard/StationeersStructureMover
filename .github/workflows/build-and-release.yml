@@ -27,7 +27,7 @@ jobs:
       run: dotnet build StationeersStructureMover.sln --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish StationeersStructureMover.csproj --configuration Release --framework net8.0 --runtime win-x64 --self-contained true --output ./publish /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfContained=true
+      run: dotnet publish StationeersStructureMover.csproj --configuration Release --framework net8.0-windows --runtime win-x64 --self-contained true --output ./publish /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfContained=true
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
