@@ -33,8 +33,9 @@ while leaving all the other bases in place (these were fine).
 ## Usage
 1. *Launch Stationeers* - start the game.  This ensures Steam cloud-saves
    have synchronized your save files.
-1. *Launch this tool* - If you haven't already, build the solution in your
-   preferred IDE (e.g., Visual Studio) and run the executable.
+1. *Launch this tool* - If you haven't already, download the release EXE,
+   or build the solution in your preferred IDE (e.g., Visual Studio),
+   and run the `StationeersStructureMover.exe` executable.
 1. *Open a save game* - use `File/Open...` menu to select a save file.
 1. *Identify structures* - Expand structures in the left panel to see
    their contents.  Look for items you have renamed with the Labeler tool,
